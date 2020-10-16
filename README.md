@@ -1,5 +1,5 @@
 # paimon-bot
-[![Discord - Owner: @Nagato_Yoshikage#2286](https://ig.shields.io/badge/Discord_--_Owner-%40Nagato__Yoshikage%232286-blue)](https://discord.com/app)
+[![Discord - Owner: @Nagato_Yoshikage#2286](https://img.shields.io/badge/Discord_--_Owner-%40Nagato__Yoshikage%232286-blue)](https://discord.com/app)
 
 A Discord conversation bot based on the character Paimon from Genshin Impact.
 
