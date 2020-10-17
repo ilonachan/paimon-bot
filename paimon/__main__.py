@@ -18,7 +18,7 @@ logging.config.dictConfig(log_cfg)
 log = logging.getLogger(__name__)
 
 
-vault_init('Unglaublich geheimer Schlüssel')
+vault_init('Super secret key')
 
 client = discord.Client()
 
