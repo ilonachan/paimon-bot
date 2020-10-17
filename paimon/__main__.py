@@ -5,8 +5,12 @@ from discord.utils import get
 import logging.config
 import yaml
 
-from vault import vault_init, vault
+from config import config_add, config
+from vault import vault_init
 
+config_add('./config.yaml')
+config_add('./env_config.yaml')
+vault_init(override=True)
 
 #
 # Logger Configuration
@@ -16,9 +20,6 @@ with open('logging.yaml', 'r') as lf:
 logging.config.dictConfig(log_cfg)
 
 log = logging.getLogger(__name__)
-
-
-vault_init('Super secret key')
 
 client = discord.Client()
 
@@ -41,4 +42,4 @@ async def on_message(message: Message):
     if get(message.mentions, id=client.user.id) is not None:
         await organic_send(message.channel, 'Hello')
 
-client.run(vault.bot_token(None))
+client.run(config.bot_token(None))

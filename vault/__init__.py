@@ -2,12 +2,13 @@ import base64
 
 import logging
 import os.path
-import sys
 
 import yaml
 from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+
+from config import config, config_add
 
 log = logging.getLogger(__name__)
 
@@ -71,7 +72,7 @@ def _load_vault(secret_key):
 
         with open(_vault_file_path, "rb") as vault_file:
             _vault = yaml.safe_load(fernet.decrypt(vault_file.read()))
-
+        config_add(_vault)
     except Exception as e:
         log.error('Could not load Vault', exc_info=e)
 
@@ -92,13 +93,16 @@ def _gen_vault(secret_key):
         log.error('Could not generate Vault', exc_info=e)
 
 
-def vault_init(secret_key=None):
+def vault_init(secret_key=None, override=False):
     if secret_key is None:
-        return vault_ready()
-    if os.path.isfile(_vault_base_path):
+        secret_key = config.secret_key(None)
+        if secret_key is None:
+            log.error('The Vault key was neither provided nor initialized.')
+            return None
+    if override and os.path.isfile(_vault_base_path):
         _gen_vault(secret_key)
     _load_vault(secret_key)
-    return vault_ready()
+    return _vault
 
 
 def vault_ready():
